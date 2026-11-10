@@ -58,10 +58,10 @@ export function Wordmark({ className }: { className?: string }) {
     <span className={clsx("inline-flex items-center gap-2.5", className)}>
       <Monogram className="h-9 w-9" />
       <span className="leading-none">
-        <span className="block font-display text-[1.05rem] tracking-tight text-bone">
-          MB <span className="text-gold">Style</span>
+        <span className="block font-display text-[1.05rem] font-medium uppercase tracking-[0.22em] text-bone">
+          MB Style
         </span>
-        <span className="mt-0.5 block text-[0.58rem] uppercase tracking-[0.32em] text-mute">Barbearia</span>
+        <span className="mt-1 block text-[0.55rem] uppercase tracking-[0.42em] text-mute">Barbearia</span>
       </span>
     </span>
   );

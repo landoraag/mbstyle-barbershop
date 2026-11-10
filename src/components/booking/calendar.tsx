@@ -80,7 +80,7 @@ export function DateStrip({
               disabled={disabled}
               onClick={() => onChange(m.key)}
               className={clsx(
-                "relative flex w-[4.4rem] shrink-0 snap-start flex-col items-center rounded-2xl border py-3 transition-colors",
+                "relative flex w-[4.4rem] shrink-0 snap-start flex-col items-center rounded-[4px] border py-3 transition-colors",
                 active
                   ? "border-gold text-ink"
                   : disabled
@@ -91,7 +91,7 @@ export function DateStrip({
               {active && (
                 <motion.span
                   layoutId="date-active"
-                  className="absolute inset-0 rounded-2xl bg-gradient-to-b from-gold-soft to-gold"
+                  className="absolute inset-0 rounded-[4px] bg-bone"
                   transition={{ type: "spring", stiffness: 400, damping: 34 }}
                 />
               )}
@@ -154,14 +154,14 @@ export function SlotGrid({
     return (
       <div className="grid grid-cols-3 gap-2 sm:grid-cols-5">
         {Array.from({ length: 15 }).map((_, i) => (
-          <div key={i} className="h-12 animate-pulse rounded-xl bg-white/[0.04]" />
+          <div key={i} className="h-12 animate-pulse rounded-[3px] bg-white/[0.04]" />
         ))}
       </div>
     );
 
   if (!slots.some((s) => s.state === "free"))
     return (
-      <div className="rounded-2xl border border-dashed border-line p-8 text-center text-sm text-mute">
+      <div className="rounded-[4px] border border-dashed border-line p-8 text-center text-sm text-mute">
         Nenhum horário livre neste dia. Tente outra data.
       </div>
     );
@@ -198,7 +198,7 @@ export function SlotGrid({
                     onClick={() => onChange(s.time)}
                     aria-label={free ? `Horário ${s.time} livre` : `Horário ${s.time} indisponível`}
                     className={clsx(
-                      "relative flex h-12 items-center justify-center gap-1.5 rounded-xl border text-sm tabular-nums transition-colors",
+                      "relative flex h-12 items-center justify-center gap-1.5 rounded-[3px] border text-sm tabular-nums transition-colors",
                       active
                         ? "border-gold font-semibold text-ink"
                         : free
@@ -209,7 +209,7 @@ export function SlotGrid({
                     {active && (
                       <motion.span
                         layoutId="slot-active"
-                        className="absolute inset-0 rounded-xl bg-gold shadow-[0_8px_24px_-6px_rgba(201,163,92,0.6)]"
+                        className="absolute inset-0 rounded-[3px] bg-gold shadow-[0_8px_24px_-6px_rgba(201,163,92,0.6)]"
                         transition={{ type: "spring", stiffness: 420, damping: 32 }}
                       />
                     )}

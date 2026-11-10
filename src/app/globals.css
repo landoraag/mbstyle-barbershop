@@ -6,8 +6,8 @@
   --color-graphite: #17171a;
   --color-smoke: #222226;
   --color-line: rgb(238 231 218 / 0.09);
-  --color-gold: #c9a35c;
-  --color-gold-soft: #e6cc95;
+  --color-gold: #b8955a;
+  --color-gold-soft: #d6bd8c;
   --color-gold-deep: #8f6f33;
   --color-bone: #eee7da;
   --color-mute: #9a958c;
@@ -16,8 +16,9 @@
   --color-warn: #e2b55b;
   --color-bad: #d9725f;
 
-  --font-display: "Bodoni Moda", "Didot", "Times New Roman", serif;
-  --font-sans: "Manrope", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Cormorant", "Cormorant Garamond", Georgia, serif;
+  --font-sans: "Jost", ui-sans-serif, system-ui, sans-serif;
+  --font-logo: "Bodoni Moda", "Didot", serif;
 
   --ease-lux: cubic-bezier(0.22, 1, 0.36, 1);
 }
@@ -60,22 +61,15 @@ body {
 }
 
 .text-gold-grad {
-  background: linear-gradient(100deg, #8f6f33 0%, #e6cc95 35%, #c9a35c 55%, #f3e2b8 70%, #8f6f33 100%);
-  background-size: 200% auto;
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  animation: sheen 6s linear infinite;
+  color: var(--color-gold-soft);
 }
 @keyframes sheen {
   to { background-position: -200% center; }
 }
 
 .gold-border {
-  border: 1px solid transparent;
-  background:
-    linear-gradient(var(--color-coal), var(--color-coal)) padding-box,
-    linear-gradient(135deg, rgb(201 163 92 / 0.7), rgb(201 163 92 / 0.05) 40%, rgb(201 163 92 / 0.5)) border-box;
+  border: 1px solid var(--color-line);
+  background: var(--color-coal);
 }
 
 .glass {
@@ -116,4 +110,22 @@ body {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+}
+
+/* Títulos: Cormorant em peso leve, entrelinha justa */
+.font-display {
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  font-feature-settings: "liga", "kern", "lnum";
+}
+h1.font-display,
+h2.font-display {
+  font-weight: 300;
+}
+.label {
+  font-family: var(--font-sans);
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
 }

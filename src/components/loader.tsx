@@ -71,13 +71,12 @@ export function Loader() {
             exit={{ opacity: 0, scale: 0.92, filter: "blur(6px)" }}
             transition={{ duration: 0.45 }}
           >
-            <div className="absolute top-10 h-48 w-48 rounded-full bg-gold/15 blur-3xl" />
             <motion.div
               initial={{ y: 24, opacity: 0, rotate: -6 }}
               animate={{ y: 0, opacity: 1, rotate: 0 }}
               transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
             >
-              <BarberPole className="relative h-44 w-auto drop-shadow-[0_10px_40px_rgba(201,163,92,0.35)]" />
+              <BarberPole className="relative h-44 w-auto " />
             </motion.div>
             <motion.p
               initial={{ opacity: 0, letterSpacing: "0.8em" }}

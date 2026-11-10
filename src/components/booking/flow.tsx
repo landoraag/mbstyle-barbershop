@@ -184,11 +184,11 @@ export function BookingFlow() {
                           go(service && b.serviceIds.includes(service.id) ? 2 : 1);
                         }}
                         className={clsx(
-                          "group flex items-center gap-4 rounded-3xl border p-3 pr-5 text-left transition",
+                          "group flex items-center gap-4 rounded-[4px] border p-3 pr-5 text-left transition",
                           barberId === b.id ? "border-gold bg-gold/[0.07]" : "border-line hover:border-gold/50 hover:bg-white/[0.02]",
                         )}
                       >
-                        <Avatar name={b.name} photo={b.photoURL} className="h-20 w-20 shrink-0 rounded-2xl text-2xl" />
+                        <Avatar name={b.name} photo={b.photoURL} className="h-20 w-20 shrink-0 rounded-[4px] text-2xl" />
                         <div className="min-w-0 flex-1">
                           <p className="font-display text-xl leading-tight">
                             {b.name}
@@ -199,7 +199,7 @@ export function BookingFlow() {
                         <ArrowRight className="h-4 w-4 text-gold opacity-0 transition group-hover:translate-x-1 group-hover:opacity-100" />
                       </motion.button>
                     ))}
-                    {!catalogReady && [0, 1, 2, 3].map((i) => <div key={i} className="h-26 animate-pulse rounded-3xl bg-white/[0.03]" />)}
+                    {!catalogReady && [0, 1, 2, 3].map((i) => <div key={i} className="h-26 animate-pulse rounded-[4px] bg-white/[0.03]" />)}
                   </div>
                 </StepWrap>
               )}
@@ -221,7 +221,7 @@ export function BookingFlow() {
                             go(2);
                           }}
                           className={clsx(
-                            "group flex items-center justify-between gap-4 rounded-2xl border px-5 py-4 text-left transition",
+                            "group flex items-center justify-between gap-4 rounded-[4px] border px-5 py-4 text-left transition",
                             serviceId === s.id ? "border-gold bg-gold/[0.07]" : "border-line hover:border-gold/50",
                           )}
                         >
@@ -269,7 +269,7 @@ export function BookingFlow() {
                         }}
                       />
                     ) : (
-                      <div className="rounded-2xl border border-dashed border-line p-10 text-center text-sm text-mute">
+                      <div className="rounded-[4px] border border-dashed border-line p-10 text-center text-sm text-mute">
                         Selecione um dia acima para ver os horários.
                       </div>
                     )}
@@ -316,7 +316,7 @@ export function BookingFlow() {
 
                   <div
                     className={clsx(
-                      "mt-6 flex gap-3 rounded-2xl border p-4 text-sm",
+                      "mt-6 flex gap-3 rounded-[4px] border p-4 text-sm",
                       isClient ? "border-ok/30 bg-ok/5" : "border-gold/25 bg-gold/5",
                     )}
                   >
@@ -344,7 +344,7 @@ export function BookingFlow() {
                 initial={{ opacity: 0, y: -6 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0 }}
-                className="mt-6 rounded-2xl border border-bad/30 bg-bad/10 px-4 py-3 text-sm text-bad"
+                className="mt-6 rounded-[4px] border border-bad/30 bg-bad/10 px-4 py-3 text-sm text-bad"
               >
                 {error}
               </motion.p>
@@ -414,7 +414,7 @@ function Summary({
   return (
     <aside className="lg:sticky lg:top-28 lg:self-start">
       {/* "ticket" do agendamento */}
-      <div className="gold-border relative overflow-hidden rounded-[1.75rem]">
+      <div className="gold-border relative overflow-hidden rounded-[4px]">
         <div className="flex items-center gap-3 border-b border-dashed border-gold/25 p-5">
           {barberName ? (
             <Avatar name={barberName} photo={barberPhoto} className="h-11 w-11 rounded-full text-sm" />
@@ -472,7 +472,7 @@ function Summary({
           whileTap={{ scale: 0.98 }}
           disabled={!canNext || submitting}
           onClick={onNext}
-          className="group relative flex h-14 flex-1 items-center justify-center gap-2 overflow-hidden rounded-full bg-gold font-semibold text-ink transition enabled:hover:bg-gold-soft disabled:cursor-not-allowed disabled:bg-white/[0.06] disabled:text-bone/30"
+          className="group relative flex h-14 flex-1 items-center justify-center gap-2 overflow-hidden rounded-[3px] bg-gold font-semibold text-ink transition enabled:hover:bg-gold-soft disabled:cursor-not-allowed disabled:bg-white/[0.06] disabled:text-bone/30"
         >
           {submitting ? (
             <>

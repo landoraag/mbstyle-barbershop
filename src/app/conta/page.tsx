@@ -57,9 +57,9 @@ export default function ContaPage() {
         </div>
 
         <div className="mt-5 space-y-3">
-          {!list && [0, 1].map((i) => <div key={i} className="h-28 animate-pulse rounded-3xl bg-white/[0.03]" />)}
+          {!list && [0, 1].map((i) => <div key={i} className="h-28 animate-pulse rounded-[4px] bg-white/[0.03]" />)}
           {list && upcoming.length === 0 && (
-            <div className="rounded-3xl border border-dashed border-line p-10 text-center">
+            <div className="rounded-[4px] border border-dashed border-line p-10 text-center">
               <CalendarDays className="mx-auto h-8 w-8 text-gold" />
               <p className="mt-3 text-mute">Nenhum horário marcado.</p>
             </div>
@@ -75,9 +75,9 @@ export default function ContaPage() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, x: -30 }}
                   transition={{ delay: i * 0.05, ease }}
-                  className="gold-border flex flex-wrap items-center gap-5 rounded-3xl p-5"
+                  className="gold-border flex flex-wrap items-center gap-5 rounded-[4px] p-5"
                 >
-                  <div className="flex h-16 w-16 flex-col items-center justify-center rounded-2xl bg-gold/10 text-gold">
+                  <div className="flex h-16 w-16 flex-col items-center justify-center rounded-[4px] bg-gold/10 text-gold">
                     <span className="font-display text-2xl leading-none">{a.date.slice(8)}</span>
                     <span className="text-[0.6rem] uppercase">{a.time}</span>
                   </div>

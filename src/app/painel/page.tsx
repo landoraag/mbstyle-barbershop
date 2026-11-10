@@ -77,12 +77,12 @@ export default function PainelPage() {
               key={t.id}
               onClick={() => setTab(t.id)}
               className={clsx(
-                "relative flex w-full items-center gap-3 rounded-2xl px-4 py-3 text-sm transition",
+                "relative flex w-full items-center gap-3 rounded-[4px] px-4 py-3 text-sm transition",
                 tab === t.id ? "text-bone" : "text-bone/50 hover:text-bone",
               )}
             >
               {tab === t.id && (
-                <motion.span layoutId="side-tab" className="absolute inset-0 rounded-2xl border border-gold/25 bg-gold/10" transition={{ type: "spring", stiffness: 400, damping: 34 }} />
+                <motion.span layoutId="side-tab" className="absolute inset-0 rounded-[4px] border border-gold/25 bg-gold/10" transition={{ type: "spring", stiffness: 400, damping: 34 }} />
               )}
               <t.icon className={clsx("relative h-4 w-4", tab === t.id && "text-gold")} />
               <span className="relative flex-1 text-left">{t.label}</span>
@@ -98,7 +98,7 @@ export default function PainelPage() {
           <Link href={`/agendar?barbeiro=${barber.id}`} target="_blank" className="flex items-center gap-2 text-xs text-mute hover:text-gold">
             <ExternalLink className="h-3.5 w-3.5" /> Ver minha página de agendamento
           </Link>
-          <div className="flex items-center gap-3 rounded-2xl border border-line p-3">
+          <div className="flex items-center gap-3 rounded-[4px] border border-line p-3">
             <Avatar name={barber.name} photo={barber.photoURL} className="h-10 w-10 rounded-full text-sm" />
             <div className="min-w-0 flex-1">
               <p className="truncate text-sm">{barber.name}</p>
@@ -121,7 +121,7 @@ export default function PainelPage() {
 
       <main className="min-w-0 px-5 pt-8 pb-32 sm:px-8 lg:px-12 lg:pt-12">
         {data.mode === "demo" && (
-          <p className="mb-6 rounded-2xl border border-dashed border-gold/30 px-4 py-2.5 text-xs text-mute">
+          <p className="mb-6 rounded-[4px] border border-dashed border-gold/30 px-4 py-2.5 text-xs text-mute">
             Modo demonstração — os dados ficam só neste navegador.
           </p>
         )}

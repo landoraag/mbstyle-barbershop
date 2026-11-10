@@ -3,91 +3,73 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import Link from "next/link";
 import { useRef, useState } from "react";
-import { introDelay } from "../loader";
-import { ArrowDown, CalendarDays, MapPin } from "lucide-react";
 import { site } from "@/config/site";
-import { seedServices } from "@/lib/seed";
-import { BarberPole, Monogram } from "../brand";
-import { ServiceName, ease } from "../ui";
-
-function RotatingBadge() {
-  const text = "PRODUTOR DE AUTOESTIMA • ITAPEVA • MB STYLE • ";
-  return (
-    <motion.svg
-      viewBox="0 0 200 200"
-      className="absolute inset-0 h-full w-full"
-      animate={{ rotate: 360 }}
-      transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
-      aria-hidden
-    >
-      <defs>
-        <path id="circle-text" d="M100,100 m-86,0 a86,86 0 1,1 172,0 a86,86 0 1,1 -172,0" />
-      </defs>
-      <text fill="#c9a35c" fontSize="9.6" letterSpacing="4.2" fontFamily="Manrope, sans-serif" fontWeight="600">
-        <textPath href="#circle-text">{text}</textPath>
-      </text>
-    </motion.svg>
-  );
-}
+import { introDelay } from "../loader";
+import { ease } from "../ui";
 
 export function Hero() {
   const ref = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
-  const yBadge = useTransform(scrollYProgress, [0, 1], [0, 160]);
-  const yText = useTransform(scrollYProgress, [0, 1], [0, 80]);
-  const fade = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
-
   const [D] = useState(introDelay);
-  const headline = ["Você", "merece", "seu", "melhor"];
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
+  const imgY = useTransform(scrollYProgress, [0, 1], ["0%", "12%"]);
+  const imgScale = useTransform(scrollYProgress, [0, 1], [1.04, 1.12]);
+  const textY = useTransform(scrollYProgress, [0, 1], [0, 60]);
+  const fade = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
+
+  const lines = ["Você merece", "seu melhor"];
 
   return (
-    <section ref={ref} id="inicio" className="relative flex min-h-[100svh] items-center overflow-hidden pt-28 pb-24">
-      {/* fundo: cimento + brilho dourado + "espelhos de LED" */}
-      <div className="pointer-events-none absolute inset-0">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_70%_40%,rgba(201,163,92,0.16),transparent_55%),radial-gradient(ellipse_at_10%_90%,rgba(232,130,58,0.07),transparent_50%)]" />
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,transparent_60%,var(--color-ink))]" />
-        {[18, 46, 74].map((left, i) => (
-          <motion.div
-            key={left}
-            className="absolute top-0 h-[70%] w-px bg-gradient-to-b from-transparent via-gold/15 to-transparent"
-            style={{ left: `${left}%` }}
-            initial={{ scaleY: 0, opacity: 0 }}
-            animate={{ scaleY: 1, opacity: 1 }}
-            transition={{ duration: 1.8, delay: D - 0.1 + i * 0.15, ease }}
-          />
-        ))}
-      </div>
+    <section ref={ref} id="inicio" className="relative flex min-h-[100svh] flex-col overflow-hidden">
+      {/* foto de corte ao fundo — translúcida, em P&B */}
+      <motion.div
+        className="absolute inset-0"
+        style={{ y: imgY, scale: imgScale }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: D, duration: 1.8, ease }}
+      >
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={site.heroImage}
+          alt=""
+          aria-hidden
+          className="h-full w-full object-cover object-[70%_30%] opacity-[0.38] grayscale contrast-[1.1]"
+        />
+      </motion.div>
+      <div className="pointer-events-none absolute inset-0 bg-ink/40 sm:hidden" />
+      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,var(--color-ink)_8%,rgb(9_9_10/0.85)_40%,rgb(9_9_10/0.35)_100%)]" />
+      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgb(9_9_10/0.6)_0%,transparent_30%,transparent_65%,var(--color-ink)_100%)]" />
 
-      <div className="relative mx-auto grid w-full max-w-6xl items-center gap-14 px-6 lg:grid-cols-[1.15fr_0.85fr]">
-        <motion.div style={{ y: yText, opacity: fade }}>
+      <div className="relative mx-auto flex w-full max-w-6xl flex-1 flex-col justify-center px-6 pt-32 pb-16">
+        <motion.div style={{ y: textY, opacity: fade }} className="max-w-3xl">
           <motion.p
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: D + 0.0, duration: 0.8, ease }}
-            className="mb-7 inline-flex items-center gap-2 rounded-full border border-gold/25 bg-gold/5 px-3.5 py-1.5 text-[0.7rem] uppercase tracking-[0.25em] text-gold-soft"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: D + 0.1, duration: 1 }}
+            className="label text-gold"
           >
-            <MapPin className="h-3.5 w-3.5" /> {site.address.district} · Itapeva
+            Barbearia · Itapeva — SP
           </motion.p>
 
-          <h1 className="font-display text-[clamp(2.9rem,8vw,6.2rem)] font-medium leading-[0.95] tracking-[-0.02em]">
-            {headline.map((w, i) => (
-              <span key={w} className="inline-block overflow-hidden pb-[0.08em] align-bottom">
+          <h1 className="mt-8 font-display text-[clamp(3.4rem,9.5vw,8rem)] leading-[0.92]">
+            {lines.map((l, i) => (
+              <span key={l} className="block overflow-hidden pb-[0.06em]">
                 <motion.span
-                  className="inline-block"
-                  initial={{ y: "110%" }}
+                  className="block"
+                  initial={{ y: "105%" }}
                   animate={{ y: 0 }}
-                  transition={{ delay: D + 0.05 + i * 0.08, duration: 1, ease }}
+                  transition={{ delay: D + 0.15 + i * 0.12, duration: 1.2, ease }}
                 >
-                  {w}&nbsp;
+                  {l}
                 </motion.span>
               </span>
             ))}
-            <span className="inline-block overflow-hidden pb-[0.12em] align-bottom">
+            <span className="block overflow-hidden pb-[0.1em]">
               <motion.span
-                className="text-gold-grad inline-block italic"
-                initial={{ y: "110%" }}
+                className="block italic text-gold-soft"
+                initial={{ y: "105%" }}
                 animate={{ y: 0 }}
-                transition={{ delay: D + 0.4, duration: 1, ease }}
+                transition={{ delay: D + 0.39, duration: 1.2, ease }}
               >
                 estilo.
               </motion.span>
@@ -95,87 +77,65 @@ export function Hero() {
           </h1>
 
           <motion.p
-            initial={{ opacity: 0, y: 16 }}
+            initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: D + 0.6, duration: 0.9, ease }}
-            className="mt-7 max-w-md text-base leading-relaxed text-bone/65 sm:text-lg"
+            transition={{ delay: D + 0.7, duration: 1, ease }}
+            className="mt-10 max-w-sm text-[0.98rem] font-light leading-relaxed text-bone/70"
           >
-            Corte, barba e acabamento de quem leva estilo a sério. Escolha seu barbeiro, veja os horários livres e
-            garanta sua cadeira em segundos.
+            Corte, barba e acabamento feitos com calma e precisão. Escolha seu barbeiro e reserve o horário online.
           </motion.p>
 
           <motion.div
-            initial={{ opacity: 0, y: 16 }}
+            initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: D + 0.75, duration: 0.9, ease }}
-            className="mt-10 flex flex-wrap gap-3"
+            transition={{ delay: D + 0.85, duration: 1, ease }}
+            className="mt-10 flex flex-wrap items-center gap-x-9 gap-y-5"
           >
             <Link
               href="/agendar"
-              className="group relative flex h-14 items-center gap-2.5 overflow-hidden rounded-full bg-gold px-7 font-semibold text-ink transition hover:bg-gold-soft"
+              className="inline-flex h-14 items-center bg-bone px-9 text-[0.78rem] font-medium uppercase tracking-[0.22em] text-ink transition-colors duration-300 hover:bg-gold-soft"
             >
-              <CalendarDays className="h-5 w-5" /> Agendar horário
-              <span className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/40 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
+              Agendar horário
             </Link>
             <Link
               href="#barbeiros"
-              className="flex h-14 items-center gap-2 rounded-full border border-bone/15 px-7 text-bone/85 transition hover:border-gold/60 hover:text-bone"
+              className="group inline-flex items-center gap-3 text-[0.78rem] uppercase tracking-[0.22em] text-bone/80 transition hover:text-bone"
             >
-              Conhecer barbeiros
+              Conheça a equipe
+              <span className="h-px w-10 bg-bone/40 transition-all duration-500 group-hover:w-16 group-hover:bg-gold" />
             </Link>
           </motion.div>
         </motion.div>
-
-        <motion.div
-          style={{ y: yBadge }}
-          initial={{ opacity: 0, scale: 0.85, rotate: -8 }}
-          animate={{ opacity: 1, scale: 1, rotate: 0 }}
-          transition={{ delay: D + 0.1, duration: 1.4, ease }}
-          className="relative mx-auto hidden aspect-square w-full max-w-[26rem] sm:block"
-        >
-          <div className="absolute inset-[12%] rounded-full bg-gold/10 blur-3xl" />
-          <RotatingBadge />
-          <div className="gold-border absolute inset-[13%] flex items-center justify-center rounded-full shadow-[inset_0_0_60px_rgba(0,0,0,0.6)]">
-            <Monogram className="h-[72%] w-[72%]" />
-          </div>
-          <motion.div
-            className="absolute -right-2 bottom-6"
-            animate={{ y: [0, -10, 0] }}
-            transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-          >
-            <BarberPole className="h-36 w-auto drop-shadow-[0_15px_30px_rgba(0,0,0,0.6)]" />
-          </motion.div>
-        </motion.div>
       </div>
 
-      <motion.a
-        href="#servicos"
+      {/* faixa de informações */}
+      <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: D + 1.3 }}
-        className="absolute bottom-20 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 text-[0.6rem] uppercase tracking-[0.35em] text-mute md:flex"
+        transition={{ delay: D + 1.1, duration: 1 }}
+        className="relative border-t border-line"
       >
-        Role
-        <motion.span animate={{ y: [0, 6, 0] }} transition={{ duration: 1.8, repeat: Infinity }}>
-          <ArrowDown className="h-4 w-4 text-gold" />
-        </motion.span>
-      </motion.a>
-
-      {/* faixa de serviços correndo */}
-      <div className="absolute inset-x-0 bottom-0 overflow-hidden border-y border-line bg-coal/80 py-3.5">
-        <motion.div
-          className="flex w-max gap-10 whitespace-nowrap"
-          animate={{ x: ["0%", "-50%"] }}
-          transition={{ duration: 38, repeat: Infinity, ease: "linear" }}
-        >
-          {[...seedServices, ...seedServices].map((s, i) => (
-            <span key={i} className="flex items-center gap-10 font-display text-lg italic text-bone/50">
-              <ServiceName name={s.name} />
-              <span className="text-xs not-italic text-gold">✦</span>
-            </span>
-          ))}
-        </motion.div>
-      </div>
+        <dl className="mx-auto grid max-w-6xl grid-cols-1 px-6 text-sm sm:grid-cols-3 sm:divide-x sm:divide-line">
+          <div className="py-5 sm:pr-8">
+            <dt className="label text-mute">Endereço</dt>
+            <dd className="mt-2 font-light text-bone/85">
+              {site.address.street} · {site.address.district}
+            </dd>
+          </div>
+          <div className="hidden py-5 sm:block sm:px-8">
+            <dt className="label text-mute">Horário</dt>
+            <dd className="mt-2 font-light text-bone/85">Segunda a sábado</dd>
+          </div>
+          <div className="hidden py-5 sm:block sm:pl-8">
+            <dt className="label text-mute">Instagram</dt>
+            <dd className="mt-2 font-light">
+              <a href={site.instagram.url} target="_blank" rel="noopener noreferrer" className="text-bone/85 hover:text-gold-soft">
+                {site.instagram.handle}
+              </a>
+            </dd>
+          </div>
+        </dl>
+      </motion.div>
     </section>
   );
 }

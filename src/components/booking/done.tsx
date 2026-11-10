@@ -102,7 +102,7 @@ export function BookingDone({ appt, barber }: { appt: Appointment; barber: Barbe
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.7, ease }}
-        className="gold-border mt-10 w-full rounded-[1.75rem] p-6 text-left"
+        className="gold-border mt-10 w-full rounded-[4px] p-6 text-left"
       >
         <dl className="grid grid-cols-2 gap-5 text-sm">
           <div>
@@ -140,7 +140,7 @@ export function BookingDone({ appt, barber }: { appt: Appointment; barber: Barbe
           href={gcalLink(appt, barber)}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex h-13 items-center justify-center gap-2 rounded-full bg-gold font-semibold text-ink hover:bg-gold-soft"
+          className="flex h-13 items-center justify-center gap-2 rounded-[3px] bg-gold font-semibold text-ink hover:bg-gold-soft"
         >
           <CalendarPlus className="h-5 w-5" /> Adicionar à agenda
         </a>
@@ -148,7 +148,7 @@ export function BookingDone({ appt, barber }: { appt: Appointment; barber: Barbe
           href={whatsappLink(`Olá! Acabei de agendar ${appt.serviceName} com ${barber.name} em ${fmtLong(appt.date)} às ${appt.time}.`)}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex h-13 items-center justify-center gap-2 rounded-full border border-bone/15 hover:border-gold/60"
+          className="flex h-13 items-center justify-center gap-2 rounded-[3px] border border-bone/15 hover:border-gold/60"
         >
           <WhatsAppIcon className="h-5 w-5" /> Avisar no WhatsApp
         </a>

@@ -155,11 +155,11 @@ function EntrarInner() {
               />
             </Field>
 
-            {error && <p className="rounded-xl border border-bad/30 bg-bad/10 px-4 py-2.5 text-sm text-bad">{error}</p>}
+            {error && <p className="rounded-[3px] border border-bad/30 bg-bad/10 px-4 py-2.5 text-sm text-bad">{error}</p>}
 
             <button
               disabled={busy}
-              className="flex h-13 w-full items-center justify-center gap-2 rounded-full bg-gold font-semibold text-ink transition hover:bg-gold-soft disabled:opacity-60"
+              className="flex h-13 w-full items-center justify-center gap-2 rounded-[3px] bg-gold font-semibold text-ink transition hover:bg-gold-soft disabled:opacity-60"
             >
               {busy && <Spinner />}
               {mode === "login" ? "Entrar" : "Criar conta"}
@@ -167,7 +167,7 @@ function EntrarInner() {
           </form>
 
           {data.mode === "demo" && (
-            <div className="mt-8 rounded-2xl border border-dashed border-gold/30 p-4 text-xs leading-relaxed text-mute">
+            <div className="mt-8 rounded-[4px] border border-dashed border-gold/30 p-4 text-xs leading-relaxed text-mute">
               <p className="mb-1 font-semibold uppercase tracking-widest text-gold">Modo demonstração</p>
               Painel do barbeiro: <code className="text-bone">marcos@mbstyle.demo</code> (ou lucas, mateus, david) com a senha{" "}
               <code className="text-bone">mbstyle</code>. Contas de cliente criadas aqui ficam só neste navegador.

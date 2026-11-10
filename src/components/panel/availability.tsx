@@ -45,7 +45,7 @@ function Toggle({ on, onChange }: { on: boolean; onChange: (v: boolean) => void 
 }
 
 const sel =
-  "h-10 rounded-xl border border-line bg-graphite px-2.5 text-sm tabular-nums outline-none focus:border-gold/60";
+  "h-10 rounded-[3px] border border-line bg-graphite px-2.5 text-sm tabular-nums outline-none focus:border-gold/60";
 
 export function AvailabilityView({ barber }: { barber: Barber }) {
   const { refreshCatalog } = useApp();
@@ -84,7 +84,7 @@ export function AvailabilityView({ barber }: { barber: Barber }) {
       </p>
 
       <div className="mt-8 grid gap-6 xl:grid-cols-[1.3fr_1fr]">
-        <section className="rounded-3xl border border-line bg-coal p-5 sm:p-6">
+        <section className="rounded-[4px] border border-line bg-coal p-5 sm:p-6">
           <h2 className="font-display text-xl">Semana padrão</h2>
           <ul className="mt-5 divide-y divide-line">
             {WEEK.map(({ d, label }) => {
@@ -114,7 +114,7 @@ export function AvailabilityView({ barber }: { barber: Barber }) {
                           <button
                             onClick={() => set(d, hasBreak ? { breakStart: null, breakEnd: null } : { breakStart: "12:00", breakEnd: "13:00" })}
                             className={clsx(
-                              "ml-auto flex h-10 items-center gap-1.5 rounded-xl border px-3 text-xs transition",
+                              "ml-auto flex h-10 items-center gap-1.5 rounded-[3px] border px-3 text-xs transition",
                               hasBreak ? "border-gold/50 text-gold" : "border-line text-mute hover:text-bone",
                             )}
                           >
@@ -155,7 +155,7 @@ export function AvailabilityView({ barber }: { barber: Barber }) {
           </ul>
         </section>
 
-        <section className="rounded-3xl border border-line bg-coal p-5 sm:p-6">
+        <section className="rounded-[4px] border border-line bg-coal p-5 sm:p-6">
           <div className="flex items-center justify-between">
             <h2 className="font-display text-xl">Folgas e dias livres</h2>
             <div className="flex items-center gap-1">
@@ -185,7 +185,7 @@ export function AvailabilityView({ barber }: { barber: Barber }) {
                   disabled={past || !inMonth}
                   onClick={() => setDaysOff((s) => (off ? s.filter((x) => x !== k) : [...s, k]))}
                   className={clsx(
-                    "relative aspect-square rounded-xl text-sm tabular-nums transition",
+                    "relative aspect-square rounded-[3px] text-sm tabular-nums transition",
                     !inMonth && "invisible",
                     past && "text-bone/15",
                     off ? "bg-bad/15 text-bad ring-1 ring-bad/40" : weeklyOff ? "text-bone/30" : "hover:bg-white/5",
@@ -214,7 +214,7 @@ export function AvailabilityView({ barber }: { barber: Barber }) {
               <button
                 onClick={save}
                 disabled={saving}
-                className="flex h-10 items-center gap-2 rounded-full bg-gold px-5 text-sm font-semibold text-ink"
+                className="flex h-10 items-center gap-2 rounded-[3px] bg-gold px-5 text-sm font-semibold text-ink"
               >
                 {saving ? <Spinner /> : <Check className="h-4 w-4" />} Salvar
               </button>

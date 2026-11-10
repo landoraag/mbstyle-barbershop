@@ -50,10 +50,7 @@ export function SplitHeading({ text, className, delay = 0 }: { text: string; cla
 
 export function Eyebrow({ children, className }: { children: ReactNode; className?: string }) {
   return (
-    <p className={clsx("flex items-center gap-3 text-[0.68rem] font-semibold uppercase tracking-[0.35em] text-gold", className)}>
-      <span className="h-px w-8 bg-gold/60" />
-      {children}
-    </p>
+    <p className={clsx("label text-gold", className)}>{children}</p>
   );
 }
 
@@ -69,12 +66,11 @@ export function Avatar({ name, photo, className }: { name: string; photo?: strin
   return (
     <div
       className={clsx(
-        "relative flex items-center justify-center overflow-hidden bg-gradient-to-br from-smoke via-graphite to-ink font-display text-gold-soft",
+        "relative flex items-center justify-center overflow-hidden bg-graphite font-display font-light text-bone/25",
         className,
       )}
       aria-label={name}
     >
-      <span className="absolute inset-0 opacity-[0.025] pole-stripes" />
       <span className="relative">{initials}</span>
     </div>
   );
@@ -107,7 +103,7 @@ export function Field({
 }
 
 export const inputCls =
-  "h-13 w-full rounded-2xl border border-line bg-graphite/70 px-4 text-[0.95rem] text-bone placeholder:text-mute/60 outline-none transition focus:border-gold/70 focus:bg-graphite focus:ring-4 focus:ring-gold/10";
+  "h-13 w-full rounded-[4px] border border-line bg-graphite/70 px-4 text-[0.95rem] text-bone placeholder:text-mute/60 outline-none transition focus:border-gold/70 focus:bg-graphite focus:ring-4 focus:ring-gold/10";
 
 /** Nome de serviço com o "+" em fonte legível (a serifada deixa o + quase invisível). */
 export function ServiceName({ name }: { name: string }) {

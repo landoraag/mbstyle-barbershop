@@ -1,9 +1,9 @@
 "use client";
 
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion } from "framer-motion";
 import Link from "next/link";
 import { useRef } from "react";
-import { ArrowUpRight, CalendarCheck2, Clock3, MapPin, Scissors, UserRoundCheck } from "lucide-react";
+import { ArrowUpRight, Clock3, MapPin } from "lucide-react";
 import { site, whatsappLink } from "@/config/site";
 import { gallery } from "@/config/gallery";
 import { InstagramIcon, Monogram, WhatsAppIcon, Wordmark } from "../brand";
@@ -15,26 +15,25 @@ function Tile({ i, className }: { i: number; className?: string }) {
   const g = gallery[i];
   return (
     <motion.figure
-      initial={{ opacity: 0, clipPath: "inset(18% 18% 18% 18% round 28px)" }}
-      whileInView={{ opacity: 1, clipPath: "inset(0% 0% 0% 0% round 28px)" }}
+      initial={{ opacity: 0, clipPath: "inset(12% 0% 12% 0%)" }}
+      whileInView={{ opacity: 1, clipPath: "inset(0% 0% 0% 0%)" }}
       viewport={{ once: true, margin: "-60px" }}
       transition={{ duration: 1.2, delay: i * 0.08, ease }}
-      className={`group relative overflow-hidden rounded-[1.75rem] bg-graphite ${className ?? ""}`}
+      className={`group relative overflow-hidden rounded-[4px] bg-graphite ${className ?? ""}`}
     >
       {g?.src ? (
         // eslint-disable-next-line @next/next/no-img-element
         <img
           src={g.src}
           alt={g.alt}
-          className="h-full w-full object-cover transition-transform duration-[1.4s] group-hover:scale-105"
+          className="h-full w-full object-cover opacity-80 grayscale transition duration-[1.4s] group-hover:scale-[1.03] group-hover:opacity-100 group-hover:grayscale-0"
         />
       ) : (
-        <div className="relative flex h-full w-full items-center justify-center bg-[radial-gradient(circle_at_30%_20%,#26262a,#0f0f11_70%)]">
-          <span className="pole-stripes absolute inset-0 opacity-[0.015]" />
+        <div className="relative flex h-full w-full items-center justify-center bg-graphite">
           <Monogram className="h-20 w-20 opacity-30 transition-opacity duration-700 group-hover:opacity-60" />
         </div>
       )}
-      <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/90 to-transparent p-5 text-sm text-bone/80">
+      <figcaption className="label absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/80 to-transparent p-5 text-bone/80">
         {g?.alt}
       </figcaption>
     </motion.figure>
@@ -43,9 +42,6 @@ function Tile({ i, className }: { i: number; className?: string }) {
 
 export function Space() {
   const ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
-  const y1 = useTransform(scrollYProgress, [0, 1], [60, -60]);
-  const y2 = useTransform(scrollYProgress, [0, 1], [-30, 50]);
 
   return (
     <section id="espaco" className="relative py-28 sm:py-36">
@@ -55,12 +51,10 @@ export function Space() {
             <Reveal>
               <Eyebrow>O espaço</Eyebrow>
             </Reveal>
-            <h2 className="mt-6 font-display text-5xl leading-[1.02] sm:text-6xl">
+            <h2 className="mt-6 font-display text-5xl leading-[1] sm:text-7xl">
               <SplitHeading text="Casa nova," />
               <br />
-              <span className="italic text-gold">
-                <SplitHeading text="mesmo capricho." delay={0.12} />
-              </span>
+              <SplitHeading text="mesmo capricho." delay={0.12} />
             </h2>
           </div>
           <Reveal delay={0.15}>
@@ -71,16 +65,14 @@ export function Space() {
           </Reveal>
         </div>
 
-        <div ref={ref} className="mt-16 grid h-[34rem] grid-cols-2 gap-4 sm:h-[38rem] sm:grid-cols-4 sm:grid-rows-2">
-          <motion.div style={{ y: y1 }} className="col-span-1 row-span-2 sm:col-span-2">
+        <div ref={ref} className="mt-16 grid h-[34rem] grid-cols-2 gap-3 sm:h-[40rem] sm:grid-cols-3 sm:grid-rows-2">
+          <motion.div className="col-span-2 row-span-1 sm:col-span-2 sm:row-span-2">
             <Tile i={0} className="h-full" />
           </motion.div>
           <Tile i={1} />
-          <motion.div style={{ y: y2 }}>
+          <motion.div>
             <Tile i={2} className="h-full" />
           </motion.div>
-          <Tile i={3} className="hidden sm:block" />
-          <Tile i={4} className="hidden sm:block" />
         </div>
       </div>
     </section>
@@ -90,23 +82,20 @@ export function Space() {
 /* ───────────────────────── Como funciona ───────────────────────── */
 
 const steps = [
-  { icon: UserRoundCheck, title: "Escolha o barbeiro", text: "Veja a equipe, as especialidades e quem tem horário livre." },
-  { icon: Scissors, title: "Escolha o serviço", text: "Corte, barba, combos — preço e duração na hora." },
-  { icon: CalendarCheck2, title: "Reserve o horário", text: "Só nome e celular. Com conta, a confirmação é automática." },
+  { n: "I", title: "Escolha o barbeiro", text: "Veja a equipe e quem tem horário livre." },
+  { n: "II", title: "Escolha o serviço", text: "Preço e duração antes de confirmar." },
+  { n: "III", title: "Reserve", text: "Só nome e celular. Com conta, a confirmação é imediata." },
 ];
 
 export function HowItWorks() {
   return (
-    <section className="relative border-y border-line bg-coal py-24">
-      <div className="mx-auto grid max-w-6xl gap-10 px-6 md:grid-cols-3">
+    <section className="border-y border-line">
+      <div className="mx-auto grid max-w-6xl px-6 md:grid-cols-3 md:divide-x md:divide-line">
         {steps.map((s, i) => (
-          <Reveal key={s.title} delay={i * 0.12} className="relative">
-            <span className="font-display text-7xl italic text-bone/[0.06]">0{i + 1}</span>
-            <div className="-mt-8 flex h-12 w-12 items-center justify-center rounded-2xl border border-gold/30 bg-gold/10 text-gold">
-              <s.icon className="h-5 w-5" />
-            </div>
-            <h3 className="mt-5 font-display text-2xl">{s.title}</h3>
-            <p className="mt-2 text-sm leading-relaxed text-bone/55">{s.text}</p>
+          <Reveal key={s.title} delay={i * 0.1} className="border-b border-line py-12 last:border-b-0 md:border-b-0 md:px-10 md:first:pl-0 md:last:pr-0">
+            <span className="font-display text-xl italic text-gold">{s.n}.</span>
+            <h3 className="mt-4 font-display text-3xl">{s.title}</h3>
+            <p className="mt-3 max-w-xs text-sm font-light leading-relaxed text-bone/55">{s.text}</p>
           </Reveal>
         ))}
       </div>
@@ -121,10 +110,10 @@ export function Contact() {
     <section id="contato" className="relative py-28 sm:py-36">
       <div className="mx-auto max-w-6xl px-6">
         <div className="grid gap-6 lg:grid-cols-[1fr_1.1fr]">
-          <Reveal className="gold-border flex flex-col rounded-[2rem] p-8 sm:p-10">
-            <Eyebrow>Visite a gente</Eyebrow>
+          <Reveal className="gold-border flex flex-col rounded-[4px] p-8 sm:p-10">
+            <Eyebrow>Onde estamos</Eyebrow>
             <h2 className="mt-6 font-display text-4xl leading-tight sm:text-5xl">
-              Bora marcar <span className="italic text-gold">o próximo?</span>
+              Rua Iperó, <span className="italic text-gold-soft">219</span>
             </h2>
 
             <div className="mt-10 space-y-7">
@@ -163,7 +152,7 @@ export function Contact() {
                 href={whatsappLink()}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex h-13 items-center justify-center gap-2 rounded-full bg-[#25D366] font-semibold text-ink transition hover:brightness-110"
+                className="flex h-13 items-center justify-center gap-2 rounded-[3px] bg-[#25D366] font-semibold text-ink transition hover:brightness-110"
               >
                 <WhatsAppIcon className="h-5 w-5" /> WhatsApp
               </a>
@@ -171,14 +160,14 @@ export function Contact() {
                 href={site.instagram.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex h-13 items-center justify-center gap-2 rounded-full border border-bone/15 transition hover:border-gold/60"
+                className="flex h-13 items-center justify-center gap-2 rounded-[3px] border border-bone/15 transition hover:border-gold/60"
               >
                 <InstagramIcon className="h-5 w-5" /> {site.instagram.handle}
               </a>
             </div>
           </Reveal>
 
-          <Reveal delay={0.15} className="relative min-h-[24rem] overflow-hidden rounded-[2rem] border border-line">
+          <Reveal delay={0.15} className="relative min-h-[24rem] overflow-hidden rounded-[4px] border border-line">
             <iframe
               title="Mapa da MB Style"
               src={site.address.mapsEmbed}
@@ -199,24 +188,20 @@ export function Contact() {
 export function FinalCta() {
   return (
     <section className="relative overflow-hidden py-28">
-      <div className="absolute inset-x-0 top-1/2 h-64 -translate-y-1/2 bg-gold/[0.06] blur-3xl" />
       <div className="relative mx-auto max-w-4xl px-6 text-center">
         <h2 className="font-display text-[clamp(2.6rem,7vw,5.5rem)] leading-[0.98]">
           <SplitHeading text="Sua autoestima" />
           <br />
-          <span className="text-gold-grad italic">
+          <span className="italic text-gold-soft">
             <SplitHeading text="começa na cadeira." delay={0.15} />
           </span>
         </h2>
         <Reveal delay={0.3}>
           <Link
             href="/agendar"
-            className="group mt-12 inline-flex h-16 items-center gap-3 rounded-full bg-gold pl-8 pr-2 text-lg font-semibold text-ink transition hover:bg-gold-soft"
+            className="mt-12 inline-flex h-14 items-center bg-bone px-10 text-[0.78rem] font-medium uppercase tracking-[0.22em] text-ink transition-colors hover:bg-gold-soft"
           >
-            Agendar agora
-            <span className="flex h-12 w-12 items-center justify-center rounded-full bg-ink text-gold transition-transform group-hover:rotate-45">
-              <ArrowUpRight className="h-5 w-5" />
-            </span>
+            Agendar horário
           </Link>
         </Reveal>
       </div>

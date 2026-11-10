@@ -32,36 +32,34 @@ export function Services() {
         <div className="grid grid-cols-[minmax(0,1fr)] gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20">
           <div className="lg:sticky lg:top-32 lg:self-start">
             <Reveal>
-              <Eyebrow>Serviços & valores</Eyebrow>
+              <Eyebrow>O cardápio</Eyebrow>
             </Reveal>
-            <h2 className="mt-6 font-display text-5xl leading-[1.02] sm:text-6xl">
-              <SplitHeading text="Cada detalhe," />
+            <h2 className="mt-6 font-display text-5xl leading-[1] sm:text-7xl">
+              <SplitHeading text="Serviços" />
               <br />
-              <span className="italic text-gold">
-                <SplitHeading text="no seu tempo." delay={0.15} />
-              </span>
+              <SplitHeading text="& valores" delay={0.12} />
             </h2>
             <Reveal delay={0.2}>
-              <p className="mt-6 max-w-sm leading-relaxed text-bone/60">
+              <p className="mt-6 max-w-sm font-light leading-relaxed text-bone/60">
                 Do corte rápido ao ritual completo com toalha quente. Valores transparentes — você vê o preço e a
                 duração antes de agendar.
               </p>
             </Reveal>
 
-            <Reveal delay={0.3} className="mt-10 flex flex-wrap gap-2">
+            <Reveal delay={0.3} className="mt-10 flex flex-wrap gap-x-6 gap-y-3">
               {tabs.map((t) => (
                 <button
                   key={t.id}
                   onClick={() => setTab(t.id)}
                   className={clsx(
-                    "relative rounded-full px-4 py-2 text-sm transition",
-                    tab === t.id ? "text-ink" : "text-bone/65 hover:text-bone",
+                    "relative pb-2 text-[0.72rem] uppercase tracking-[0.2em] transition",
+                    tab === t.id ? "text-bone" : "text-bone/45 hover:text-bone/80",
                   )}
                 >
                   {tab === t.id && (
                     <motion.span
                       layoutId="svc-tab"
-                      className="absolute inset-0 rounded-full bg-gold"
+                      className="absolute inset-x-0 bottom-0 h-px bg-gold"
                       transition={{ type: "spring", stiffness: 380, damping: 32 }}
                     />
                   )}
@@ -96,7 +94,6 @@ export function Services() {
                       href={`/agendar?servico=${s.id}`}
                       className="group relative flex items-start gap-5 py-6 transition-colors"
                     >
-                      <span className="absolute inset-y-0 -left-4 -right-4 origin-left scale-x-0 rounded-2xl bg-gradient-to-r from-gold/[0.07] to-transparent transition-transform duration-500 group-hover:scale-x-100" />
                       <div className="relative min-w-0 flex-1">
                         <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
                           <h3 className="min-w-0 font-display text-xl transition-colors sm:text-2xl group-hover:text-gold-soft"><ServiceName name={s.name} /></h3>

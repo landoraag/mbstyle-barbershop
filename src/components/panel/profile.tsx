@@ -40,8 +40,8 @@ export function ProfileView({ barber }: { barber: Barber }) {
       <p className="text-[0.7rem] uppercase tracking-[0.35em] text-gold">Perfil</p>
       <h1 className="mt-2 font-display text-4xl">Como você aparece no site</h1>
 
-      <div className="mt-8 flex items-center gap-5 rounded-3xl border border-line bg-coal p-5">
-        <Avatar name={barber.name} photo={form.photoURL || null} className="h-24 w-24 rounded-2xl text-3xl" />
+      <div className="mt-8 flex items-center gap-5 rounded-[4px] border border-line bg-coal p-5">
+        <Avatar name={barber.name} photo={form.photoURL || null} className="h-24 w-24 rounded-[4px] text-3xl" />
         <div className="flex-1">
           <p className="font-display text-2xl">
             {barber.name} {form.nickname && <span className="italic text-gold">“{form.nickname}”</span>}
@@ -79,7 +79,7 @@ export function ProfileView({ barber }: { barber: Barber }) {
         </div>
         <div className="sm:col-span-2">
           <Field label="Especialidades">
-            <div className="flex flex-wrap gap-2 rounded-2xl border border-line bg-graphite/70 p-2.5">
+            <div className="flex flex-wrap gap-2 rounded-[4px] border border-line bg-graphite/70 p-2.5">
               {form.specialties.map((s) => (
                 <span key={s} className="flex items-center gap-1 rounded-full bg-gold/15 py-1 pl-3 pr-1.5 text-sm text-gold-soft">
                   {s}
@@ -123,7 +123,7 @@ export function ProfileView({ barber }: { barber: Barber }) {
                 setForm({ ...form, serviceIds: on ? form.serviceIds.filter((x) => x !== s.id) : [...form.serviceIds, s.id] })
               }
               className={clsx(
-                "flex items-center justify-between rounded-2xl border px-4 py-3 text-left text-sm transition",
+                "flex items-center justify-between rounded-[4px] border px-4 py-3 text-left text-sm transition",
                 on ? "border-gold/50 bg-gold/[0.06]" : "border-line text-mute",
               )}
             >
@@ -139,7 +139,7 @@ export function ProfileView({ barber }: { barber: Barber }) {
       <button
         onClick={save}
         disabled={saving}
-        className="mt-10 flex h-13 items-center gap-2 rounded-full bg-gold px-8 font-semibold text-ink hover:bg-gold-soft"
+        className="mt-10 flex h-13 items-center gap-2 rounded-[3px] bg-gold px-8 font-semibold text-ink hover:bg-gold-soft"
       >
         {saving ? <Spinner /> : <Check className="h-4 w-4" />} {ok ? "Salvo!" : "Salvar perfil"}
       </button>

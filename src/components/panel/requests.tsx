@@ -19,9 +19,9 @@ export function RequestsView({ appts }: { appts: Appointment[] }) {
 
       <div className="mt-8 space-y-3">
         {list.length === 0 && (
-          <div className="rounded-3xl border border-dashed border-line p-12 text-center">
+          <div className="rounded-[4px] border border-dashed border-line p-12 text-center">
             <Inbox className="mx-auto h-8 w-8 text-gold" />
-            <p className="mt-3 text-mute">Nenhum pedido pendente. Tudo em dia ✂️</p>
+            <p className="mt-3 text-mute">Nenhum pedido pendente. Tudo em dia.</p>
           </div>
         )}
         <AnimatePresence>
@@ -32,9 +32,9 @@ export function RequestsView({ appts }: { appts: Appointment[] }) {
               initial={{ opacity: 0, y: 14 }}
               animate={{ opacity: 1, y: 0, transition: { delay: i * 0.04 } }}
               exit={{ opacity: 0, x: 60, transition: { duration: 0.3 } }}
-              className="flex flex-wrap items-center gap-4 rounded-3xl border border-warn/30 bg-warn/[0.04] p-5"
+              className="flex flex-wrap items-center gap-4 rounded-[4px] border border-warn/30 bg-warn/[0.04] p-5"
             >
-              <div className="flex h-16 w-16 shrink-0 flex-col items-center justify-center rounded-2xl bg-warn/10 text-warn">
+              <div className="flex h-16 w-16 shrink-0 flex-col items-center justify-center rounded-[4px] bg-warn/10 text-warn">
                 <span className="font-display text-2xl leading-none">{a.date.slice(8)}</span>
                 <span className="text-[0.65rem]">{a.time}</span>
               </div>
@@ -56,13 +56,13 @@ export function RequestsView({ appts }: { appts: Appointment[] }) {
               <div className="flex gap-2">
                 <button
                   onClick={() => data.setAppointmentStatus(a, "rejected")}
-                  className="flex h-11 items-center gap-1.5 rounded-full border border-line px-4 text-sm hover:border-bad/60 hover:text-bad"
+                  className="flex h-11 items-center gap-1.5 rounded-[3px] border border-line px-4 text-sm hover:border-bad/60 hover:text-bad"
                 >
                   <X className="h-4 w-4" /> Recusar
                 </button>
                 <button
                   onClick={() => data.setAppointmentStatus(a, "confirmed")}
-                  className="flex h-11 items-center gap-1.5 rounded-full bg-gold px-5 text-sm font-semibold text-ink hover:bg-gold-soft"
+                  className="flex h-11 items-center gap-1.5 rounded-[3px] bg-gold px-5 text-sm font-semibold text-ink hover:bg-gold-soft"
                 >
                   <Check className="h-4 w-4" /> Aceitar
                 </button>

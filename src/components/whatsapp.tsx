@@ -36,7 +36,7 @@ export function WhatsAppWidget({ raised = false }: { raised?: boolean }) {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 12, scale: 0.96 }}
             transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-            className="glass w-[min(20rem,calc(100vw-2.5rem))] overflow-hidden rounded-3xl shadow-2xl"
+            className="glass w-[min(20rem,calc(100vw-2.5rem))] overflow-hidden rounded-[4px] shadow-2xl"
           >
             <div className="flex items-center gap-3 border-b border-line bg-gradient-to-br from-gold/15 to-transparent p-4">
               <div className="relative">
@@ -52,8 +52,8 @@ export function WhatsAppWidget({ raised = false }: { raised?: boolean }) {
               </button>
             </div>
             <div className="space-y-3 p-4">
-              <div className="w-fit max-w-[85%] rounded-2xl rounded-tl-sm bg-smoke px-3.5 py-2.5 text-sm">
-                Fala! 👋 Tem alguma dúvida? Escolha uma opção ou mande sua mensagem.
+              <div className="w-fit max-w-[85%] rounded-[4px] bg-smoke px-3.5 py-2.5 text-sm">
+                Olá! Tem alguma dúvida? Escolha uma opção ou mande sua mensagem.
               </div>
               <div className="flex flex-wrap gap-2">
                 {quick.map((q, i) => (
@@ -65,7 +65,7 @@ export function WhatsAppWidget({ raised = false }: { raised?: boolean }) {
                     initial={{ opacity: 0, y: 6 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.1 + i * 0.05 }}
-                    className="rounded-full border border-gold/30 px-3 py-1.5 text-xs text-gold-soft transition hover:border-gold hover:bg-gold/10"
+                    className="rounded-[3px] border border-line px-3 py-1.5 text-xs text-bone/80 transition hover:border-gold hover:bg-gold/10"
                   >
                     {q.label}
                   </motion.a>
@@ -75,7 +75,7 @@ export function WhatsAppWidget({ raised = false }: { raised?: boolean }) {
                 href={whatsappLink()}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex h-11 items-center justify-center gap-2 rounded-full bg-[#25D366] text-sm font-semibold text-ink transition hover:brightness-110"
+                className="flex h-11 items-center justify-center gap-2 rounded-[3px] bg-[#25D366] text-sm font-semibold text-ink transition hover:brightness-110"
               >
                 <WhatsAppIcon className="h-4 w-4" /> Abrir conversa <ArrowUpRight className="h-4 w-4" />
               </a>
@@ -92,7 +92,7 @@ export function WhatsAppWidget({ raised = false }: { raised?: boolean }) {
               initial={{ opacity: 0, x: 10 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: 10 }}
-              className="glass hidden rounded-full px-4 py-2 text-xs sm:block"
+              className="glass hidden rounded-[3px] px-4 py-2 text-xs font-light tracking-wide sm:block"
             >
               Dúvidas? Fale com a gente
             </motion.button>
@@ -103,9 +103,8 @@ export function WhatsAppWidget({ raised = false }: { raised?: boolean }) {
           aria-label={open ? "Fechar WhatsApp" : "Falar no WhatsApp"}
           whileHover={{ scale: 1.06 }}
           whileTap={{ scale: 0.94 }}
-          className="relative flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-ink shadow-[0_10px_30px_-5px_rgba(37,211,102,0.5)]"
+          className="relative flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-ink shadow-[0_8px_24px_-8px_rgba(0,0,0,0.8)]"
         >
-          {!open && <span className="absolute inset-0 animate-ping rounded-full bg-[#25D366] opacity-25" />}
           <AnimatePresence mode="wait" initial={false}>
             <motion.span
               key={open ? "x" : "w"}

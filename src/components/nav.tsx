@@ -42,7 +42,7 @@ export function Nav() {
       >
         <nav
           className={clsx(
-            "glass flex w-full max-w-6xl items-center justify-between rounded-full pl-4 pr-2 transition-all duration-500",
+            "glass flex w-full max-w-6xl items-center justify-between rounded-[4px] pl-4 pr-2 transition-all duration-500",
             compact ? "py-1.5 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.8)]" : "py-2.5",
           )}
         >
@@ -76,11 +76,10 @@ export function Nav() {
             {pathname !== "/agendar" && (
               <Link
                 href="/agendar"
-                className="group relative flex h-10 items-center gap-2 overflow-hidden rounded-full bg-gold px-3.5 min-[400px]:px-5 text-sm font-semibold text-ink transition hover:bg-gold-soft"
+                className="group relative flex h-10 items-center gap-2 overflow-hidden rounded-[3px] bg-bone px-3.5 min-[400px]:px-5 text-sm font-semibold text-ink transition hover:bg-gold-soft"
               >
                 <CalendarDays className="h-4 w-4" />
                 <span className="hidden min-[400px]:inline">Agendar</span>
-                <span className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/40 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
               </Link>
             )}
             <button
@@ -141,7 +140,7 @@ export function Nav() {
               <Link
                 href="/agendar"
                 onClick={() => setOpen(false)}
-                className="flex h-14 items-center justify-center gap-2 rounded-full bg-gold font-semibold text-ink"
+                className="flex h-14 items-center justify-center gap-2 rounded-[3px] bg-gold font-semibold text-ink"
               >
                 <CalendarDays className="h-5 w-5" /> Agendar horário
               </Link>

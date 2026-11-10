@@ -63,12 +63,12 @@ export function AgendaView({ barber, appts, busy }: { barber: Barber; appts: App
               key={k}
               onClick={() => setDate(k)}
               className={clsx(
-                "relative flex w-16 shrink-0 flex-col items-center rounded-2xl border py-2.5 transition",
+                "relative flex w-16 shrink-0 flex-col items-center rounded-[4px] border py-2.5 transition",
                 active ? "border-gold text-ink" : "border-line hover:border-gold/40",
                 off && !active && "opacity-40",
               )}
             >
-              {active && <motion.span layoutId="agenda-day" className="absolute inset-0 rounded-2xl bg-gold" transition={{ type: "spring", stiffness: 400, damping: 34 }} />}
+              {active && <motion.span layoutId="agenda-day" className="absolute inset-0 rounded-[4px] bg-gold" transition={{ type: "spring", stiffness: 400, damping: 34 }} />}
               <span className={clsx("relative text-[0.6rem] uppercase tracking-widest", active ? "text-ink/70" : "text-mute")}>{weekdayShort(d)}</span>
               <span className="relative font-display text-xl">{d.getDate()}</span>
               <span className={clsx("relative text-[0.58rem] capitalize", active ? "text-ink/70" : "text-mute")}>{monthShort(d)}</span>
@@ -88,7 +88,7 @@ export function AgendaView({ barber, appts, busy }: { barber: Barber; appts: App
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: i * 0.05, ease }}
-            className="rounded-2xl border border-line bg-coal p-4"
+            className="rounded-[4px] border border-line bg-coal p-4"
           >
             <p className="text-xs text-mute">{s.label}</p>
             <p className="mt-1 font-display text-3xl">{s.value}</p>
@@ -96,7 +96,7 @@ export function AgendaView({ barber, appts, busy }: { barber: Barber; appts: App
         ))}
       </div>
 
-      <div className="mt-8 rounded-3xl border border-line bg-coal p-3 sm:p-5">
+      <div className="mt-8 rounded-[4px] border border-line bg-coal p-3 sm:p-5">
         {slots.length === 0 ? (
           <p className="p-10 text-center text-mute">Folga neste dia. Ajuste na aba Horários se precisar.</p>
         ) : (
@@ -126,7 +126,7 @@ export function AgendaView({ barber, appts, busy }: { barber: Barber; appts: App
                           initial={{ opacity: 0 }}
                           animate={{ opacity: 1 }}
                           onClick={() => data.toggleBlock(barber.id, date, t, false)}
-                          className="group flex h-full min-h-13 w-full items-center gap-2 rounded-xl px-4 text-sm text-mute [background:repeating-linear-gradient(-45deg,rgba(255,255,255,0.03)_0_8px,transparent_8px_16px)]"
+                          className="group flex h-full min-h-13 w-full items-center gap-2 rounded-[3px] px-4 text-sm text-mute [background:repeating-linear-gradient(-45deg,rgba(255,255,255,0.03)_0_8px,transparent_8px_16px)]"
                         >
                           <Lock className="h-4 w-4" /> Bloqueado
                           <span className="ml-auto flex items-center gap-1 text-xs opacity-0 transition group-hover:opacity-100">
@@ -139,7 +139,7 @@ export function AgendaView({ barber, appts, busy }: { barber: Barber; appts: App
                           initial={{ opacity: 0 }}
                           animate={{ opacity: 1 }}
                           onClick={() => data.toggleBlock(barber.id, date, t, true)}
-                          className="group flex h-full min-h-13 w-full items-center rounded-xl border border-dashed border-transparent px-4 text-sm text-bone/25 transition hover:border-line hover:text-bone/60"
+                          className="group flex h-full min-h-13 w-full items-center rounded-[3px] border border-dashed border-transparent px-4 text-sm text-bone/25 transition hover:border-line hover:text-bone/60"
                         >
                           Livre
                           <span className="ml-auto flex items-center gap-1 text-xs opacity-0 transition group-hover:opacity-100">
@@ -169,7 +169,7 @@ function ApptCard({ a }: { a: Appointment }) {
       animate={{ opacity: 1, scale: 1 }}
       exit={{ opacity: 0, scale: 0.97 }}
       className={clsx(
-        "relative flex h-full flex-wrap items-start gap-3 overflow-hidden rounded-xl border p-3 pl-4",
+        "relative flex h-full flex-wrap items-start gap-3 overflow-hidden rounded-[3px] border p-3 pl-4",
         pending ? "border-warn/40 bg-warn/[0.06]" : "border-gold/30 bg-gradient-to-r from-gold/[0.12] to-gold/[0.03]",
       )}
     >
