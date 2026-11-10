@@ -98,7 +98,7 @@ export function Services() {
                     >
                       <span className="absolute inset-y-0 -left-4 -right-4 origin-left scale-x-0 rounded-2xl bg-gradient-to-r from-gold/[0.07] to-transparent transition-transform duration-500 group-hover:scale-x-100" />
                       <div className="relative min-w-0 flex-1">
-                        <div className="flex items-baseline gap-3">
+                        <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
                           <h3 className="min-w-0 font-display text-xl transition-colors sm:text-2xl group-hover:text-gold-soft"><ServiceName name={s.name} /></h3>
                           <span className="hidden flex-1 border-b border-dotted border-bone/15 sm:block" />
                           <span className="ml-auto shrink-0 font-display text-xl text-gold sm:ml-0 sm:text-2xl">{brl(s.price)}</span>
