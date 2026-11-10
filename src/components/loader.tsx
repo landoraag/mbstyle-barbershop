@@ -66,6 +66,22 @@ export function Loader() {
             exit={{ x: "100%" }}
             transition={{ duration: 0.9, ease: [0.76, 0, 0.24, 1] }}
           />
+          <motion.p
+            exit={{ opacity: 0, y: 30 }}
+            transition={{ duration: 0.4 }}
+            className="absolute bottom-6 right-8 font-display text-[clamp(4rem,12vw,9rem)] font-light leading-none tabular-nums text-bone/90"
+          >
+            {Math.round(progress * 100)}
+            <span className="text-gold">%</span>
+          </motion.p>
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="label absolute bottom-10 left-8 text-mute"
+          >
+            Itapeva — SP
+          </motion.p>
           <motion.div
             className="relative flex flex-col items-center"
             exit={{ opacity: 0, scale: 0.92, filter: "blur(6px)" }}
@@ -100,7 +116,6 @@ export function Loader() {
                 style={{ width: `${progress * 100}%` }}
               />
             </div>
-            <p className="mt-3 font-mono text-[0.6rem] tabular-nums text-mute">{Math.round(progress * 100)}%</p>
           </motion.div>
         </motion.div>
       )}

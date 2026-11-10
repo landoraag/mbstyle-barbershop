@@ -129,3 +129,18 @@ h2.font-display {
   letter-spacing: 0.32em;
   text-transform: uppercase;
 }
+
+/* Lenis (rolagem suave) */
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+.lenis.lenis-stopped { overflow: hidden; }
+
+/* Cursor personalizado */
+html.has-cursor, html.has-cursor a, html.has-cursor button, html.has-cursor [data-cursor] { cursor: none; }
+
+/* Texto vazado */
+.text-outline {
+  color: transparent;
+  -webkit-text-stroke: 1px rgb(238 231 218 / 0.45);
+}

@@ -1,42 +1,40 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import Link from "next/link";
 import { useRef } from "react";
 import { ArrowUpRight, Clock3, MapPin } from "lucide-react";
 import { site, whatsappLink } from "@/config/site";
 import { gallery } from "@/config/gallery";
 import { InstagramIcon, Monogram, WhatsAppIcon, Wordmark } from "../brand";
-import { Eyebrow, Reveal, SplitHeading, ease } from "../ui";
+import { CharReveal, Diamond, MaskReveal, ParallaxImage } from "../fx";
+import { LuxLink } from "../lux-link";
+import { Eyebrow, Reveal } from "../ui";
 
 /* ───────────────────────── O espaço ───────────────────────── */
 
 function Tile({ i, className }: { i: number; className?: string }) {
   const g = gallery[i];
   return (
-    <motion.figure
-      initial={{ opacity: 0, clipPath: "inset(12% 0% 12% 0%)" }}
-      whileInView={{ opacity: 1, clipPath: "inset(0% 0% 0% 0%)" }}
-      viewport={{ once: true, margin: "-60px" }}
-      transition={{ duration: 1.2, delay: i * 0.08, ease }}
-      className={`group relative overflow-hidden rounded-[4px] bg-graphite ${className ?? ""}`}
-    >
-      {g?.src ? (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img
-          src={g.src}
-          alt={g.alt}
-          className="h-full w-full object-cover opacity-80 grayscale transition duration-[1.4s] group-hover:scale-[1.03] group-hover:opacity-100 group-hover:grayscale-0"
-        />
-      ) : (
-        <div className="relative flex h-full w-full items-center justify-center bg-graphite">
-          <Monogram className="h-20 w-20 opacity-30 transition-opacity duration-700 group-hover:opacity-60" />
-        </div>
-      )}
-      <figcaption className="label absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/80 to-transparent p-5 text-bone/80">
-        {g?.alt}
+    <figure className={`group relative overflow-hidden bg-graphite ${className ?? ""}`} data-cursor="Ver">
+      <MaskReveal className="h-full w-full" delay={i * 0.15}>
+        {g?.src ? (
+          <ParallaxImage
+            src={g.src}
+            alt={g.alt}
+            className="h-full w-full opacity-80 grayscale transition duration-[1.4s] group-hover:opacity-100 group-hover:grayscale-0"
+          />
+        ) : (
+          <div className="flex h-full w-full items-center justify-center bg-graphite">
+            <Monogram className="h-20 w-20 opacity-30" />
+          </div>
+        )}
+      </MaskReveal>
+      <figcaption className="absolute inset-x-0 bottom-0 flex items-center justify-between bg-gradient-to-t from-ink/85 to-transparent p-5">
+        <span className="label text-bone/85">{g?.alt}</span>
+        <span className="font-display text-sm italic text-gold-soft">0{i + 1}</span>
       </figcaption>
-    </motion.figure>
+    </figure>
   );
 }
 
@@ -52,9 +50,11 @@ export function Space() {
               <Eyebrow>O espaço</Eyebrow>
             </Reveal>
             <h2 className="mt-6 font-display text-5xl leading-[1] sm:text-7xl">
-              <SplitHeading text="Casa nova," />
+              <CharReveal text="Casa nova," inView />
               <br />
-              <SplitHeading text="mesmo capricho." delay={0.12} />
+              <span className="italic text-gold-soft">
+                <CharReveal text="mesmo capricho." inView delay={0.3} />
+              </span>
             </h2>
           </div>
           <Reveal delay={0.15}>
@@ -187,22 +187,28 @@ export function Contact() {
 
 export function FinalCta() {
   return (
-    <section className="relative overflow-hidden py-28">
-      <div className="relative mx-auto max-w-4xl px-6 text-center">
-        <h2 className="font-display text-[clamp(2.6rem,7vw,5.5rem)] leading-[0.98]">
-          <SplitHeading text="Sua autoestima" />
+    <section className="relative overflow-hidden py-36 sm:py-48">
+      {gallery[0]?.src && (
+        <ParallaxImage src={gallery[0].src} alt="" amount={20} className="absolute inset-0 opacity-[0.16] grayscale" />
+      )}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_10%,var(--color-ink)_75%)]" />
+      <div className="relative mx-auto max-w-5xl px-6 text-center">
+        <Reveal>
+          <p className="label flex items-center justify-center gap-4 text-gold">
+            <Diamond className="h-1.5 w-1.5" /> Reserve sua cadeira <Diamond className="h-1.5 w-1.5" />
+          </p>
+        </Reveal>
+        <h2 className="mt-8 font-display text-[clamp(2.8rem,8vw,6.8rem)] leading-[0.95]">
+          <CharReveal text="Sua autoestima" inView />
           <br />
           <span className="italic text-gold-soft">
-            <SplitHeading text="começa na cadeira." delay={0.15} />
+            <CharReveal text="começa na cadeira." inView delay={0.35} />
           </span>
         </h2>
-        <Reveal delay={0.3}>
-          <Link
-            href="/agendar"
-            className="mt-12 inline-flex h-14 items-center bg-bone px-10 text-[0.78rem] font-medium uppercase tracking-[0.22em] text-ink transition-colors hover:bg-gold-soft"
-          >
+        <Reveal delay={0.4} className="mt-14 flex justify-center">
+          <LuxLink href="/agendar" cursor="Agendar">
             Agendar horário
-          </Link>
+          </LuxLink>
         </Reveal>
       </div>
     </section>
@@ -210,27 +216,63 @@ export function FinalCta() {
 }
 
 export function Footer() {
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end end"] });
+  const y = useTransform(scrollYProgress, [0, 1], ["60%", "0%"]);
+  const opacity = useTransform(scrollYProgress, [0, 1], [0.2, 1]);
   return (
-    <footer className="border-t border-line bg-coal">
-      <div className="mx-auto flex max-w-6xl flex-col gap-8 px-6 py-12 md:flex-row md:items-center md:justify-between">
+    <footer className="relative overflow-hidden border-t border-line bg-coal">
+      <div className="mx-auto grid max-w-6xl gap-12 px-6 pt-20 pb-10 md:grid-cols-[1.4fr_1fr_1fr]">
         <div>
           <Wordmark />
-          <p className="mt-4 max-w-xs text-sm text-mute">
+          <p className="mt-6 max-w-xs text-sm font-light leading-relaxed text-mute">
             {site.tagline}. {site.address.street}, {site.address.district} — {site.address.city}.
           </p>
         </div>
-        <nav className="flex flex-wrap gap-x-8 gap-y-3 text-sm text-bone/70">
-          <Link href="/#servicos" className="hover:text-gold">Serviços</Link>
-          <Link href="/#barbeiros" className="hover:text-gold">Barbeiros</Link>
-          <Link href="/agendar" className="hover:text-gold">Agendar</Link>
-          <Link href="/entrar" className="hover:text-gold">Minha conta</Link>
-          <Link href="/painel" className="hover:text-gold">Área do barbeiro</Link>
+        <nav className="flex flex-col gap-3 text-sm font-light">
+          <span className="label mb-2 text-gold">Navegação</span>
+          {[
+            ["/#servicos", "Serviços"],
+            ["/#barbeiros", "Barbeiros"],
+            ["/#espaco", "O espaço"],
+            ["/agendar", "Agendar"],
+          ].map(([h, l]) => (
+            <Link key={h} href={h} className="group w-fit text-bone/70 transition hover:text-bone">
+              <span className="bg-[linear-gradient(currentColor,currentColor)] bg-[length:0%_1px] bg-left-bottom bg-no-repeat pb-0.5 transition-[background-size] duration-500 group-hover:bg-[length:100%_1px]">
+                {l}
+              </span>
+            </Link>
+          ))}
+        </nav>
+        <nav className="flex flex-col gap-3 text-sm font-light">
+          <span className="label mb-2 text-gold">Acesso</span>
+          {[
+            ["/entrar", "Minha conta"],
+            ["/painel", "Área do barbeiro"],
+            [site.instagram.url, "Instagram"],
+          ].map(([h, l]) => (
+            <Link key={l} href={h} className="group w-fit text-bone/70 transition hover:text-bone">
+              <span className="bg-[linear-gradient(currentColor,currentColor)] bg-[length:0%_1px] bg-left-bottom bg-no-repeat pb-0.5 transition-[background-size] duration-500 group-hover:bg-[length:100%_1px]">
+                {l}
+              </span>
+            </Link>
+          ))}
         </nav>
       </div>
+      <div ref={ref} className="relative overflow-hidden">
+        <motion.p
+          style={{ y, opacity }}
+          className="select-none whitespace-nowrap text-center font-display text-[24vw] font-light leading-[0.78] tracking-[-0.03em] text-outline"
+          aria-hidden
+        >
+          MB Style
+        </motion.p>
+      </div>
       <div className="border-t border-line">
-        <p className="mx-auto max-w-6xl px-6 py-5 text-xs text-mute">
-          © {new Date().getFullYear()} MB Style Barbearia · Itapeva-SP
-        </p>
+        <div className="mx-auto flex max-w-6xl flex-wrap justify-between gap-2 px-6 py-5 text-xs text-mute">
+          <span>© {new Date().getFullYear()} MB Style Barbearia · Itapeva-SP</span>
+          <span>Produtor de autoestima</span>
+        </div>
       </div>
     </footer>
   );

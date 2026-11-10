@@ -5,7 +5,8 @@ import Link from "next/link";
 import { useNextFree } from "@/lib/hooks";
 import type { Barber } from "@/lib/types";
 import { useApp } from "../providers";
-import { Avatar, Eyebrow, Reveal, SplitHeading, ease } from "../ui";
+import { CharReveal, MaskReveal } from "../fx";
+import { Avatar, Eyebrow, Reveal, ease } from "../ui";
 
 function NextFree({ barber }: { barber: Barber }) {
   const next = useNextFree(barber);
@@ -30,12 +31,20 @@ function BarberCard({ barber, index }: { barber: Barber; index: number }) {
       transition={{ duration: 1, delay: index * 0.08, ease }}
       className="group flex flex-col"
     >
-      <Link href={`/agendar?barbeiro=${barber.id}`} className="relative block aspect-[3/4] overflow-hidden bg-graphite">
-        <Avatar
-          name={barber.name}
-          photo={barber.photoURL}
-          className="h-full w-full text-[5.5rem] grayscale transition duration-[1.4s] ease-out group-hover:scale-[1.03] group-hover:grayscale-0"
-        />
+      <Link
+        href={`/agendar?barbeiro=${barber.id}`}
+        data-cursor="Agendar"
+        className="relative block aspect-[3/4] overflow-hidden bg-graphite"
+      >
+        <MaskReveal className="h-full w-full" delay={index * 0.12}>
+          <Avatar
+            name={barber.name}
+            photo={barber.photoURL}
+            className="h-full w-full text-[5.5rem] grayscale transition duration-[1.4s] ease-out group-hover:scale-[1.06] group-hover:grayscale-0"
+          />
+        </MaskReveal>
+        <span className="absolute left-4 top-4 font-display text-sm italic text-bone/40">{String(index + 1).padStart(2, "0")}</span>
+        <span className="pointer-events-none absolute inset-3 border border-gold/0 transition-colors duration-700 group-hover:border-gold/40" />
         <span className="absolute inset-x-0 bottom-0 translate-y-[102%] bg-bone py-3.5 text-center text-[0.72rem] font-medium uppercase tracking-[0.22em] text-ink transition-transform duration-500 group-hover:translate-y-0">
           Agendar com {first}
         </span>
@@ -73,8 +82,11 @@ export function Barbers() {
               <Eyebrow>A equipe</Eyebrow>
             </Reveal>
             <h2 className="mt-6 font-display text-5xl leading-[1] sm:text-7xl">
-              <SplitHeading text="Escolha quem" /> <br />
-              <SplitHeading text="cuida do seu corte." delay={0.12} />
+              <CharReveal text="Escolha quem" inView /> <br />
+              <CharReveal text="cuida do seu" inView delay={0.3} />{" "}
+              <span className="italic text-gold-soft">
+                <CharReveal text="corte." inView delay={0.6} />
+              </span>
             </h2>
           </div>
           <Reveal delay={0.2}>

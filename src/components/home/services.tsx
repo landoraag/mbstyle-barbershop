@@ -1,6 +1,8 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useMotionValue, useSpring, useTransform, useVelocity } from "framer-motion";
+import { site } from "@/config/site";
+import { gallery } from "@/config/gallery";
 import Link from "next/link";
 import { useState } from "react";
 import { ArrowUpRight, Clock } from "lucide-react";
@@ -8,7 +10,8 @@ import { clsx } from "clsx";
 import { brl } from "@/lib/time";
 import type { Service } from "@/lib/types";
 import { useApp } from "../providers";
-import { Eyebrow, Reveal, ServiceName, SplitHeading, ease } from "../ui";
+import { CharReveal } from "../fx";
+import { Eyebrow, Reveal, ServiceName, ease } from "../ui";
 
 const tabs: { id: "all" | Service["category"]; label: string }[] = [
   { id: "all", label: "Destaques" },
@@ -21,10 +24,18 @@ const tabs: { id: "all" | Service["category"]; label: string }[] = [
 
 const fmtDur = (m: number) => (m >= 60 ? `${Math.floor(m / 60)}h${m % 60 ? ` ${m % 60}min` : ""}` : `${m} min`);
 
+const previews = [site.heroImage, ...gallery.map((g) => g.src).filter(Boolean)] as string[];
+
 export function Services() {
   const { services } = useApp();
   const [tab, setTab] = useState<(typeof tabs)[number]["id"]>("all");
   const list = services.filter((s) => (tab === "all" ? s.featured : s.category === tab));
+  const [hovered, setHovered] = useState<number | null>(null);
+  const mx = useMotionValue(0);
+  const my = useMotionValue(0);
+  const px = useSpring(mx, { stiffness: 160, damping: 22, mass: 0.5 });
+  const py = useSpring(my, { stiffness: 160, damping: 22, mass: 0.5 });
+  const rot = useSpring(useTransform(useVelocity(mx), [-1500, 1500], [-10, 10]), { stiffness: 120, damping: 20 });
 
   return (
     <section id="servicos" className="relative py-28 sm:py-36">
@@ -35,9 +46,11 @@ export function Services() {
               <Eyebrow>O cardápio</Eyebrow>
             </Reveal>
             <h2 className="mt-6 font-display text-5xl leading-[1] sm:text-7xl">
-              <SplitHeading text="Serviços" />
+              <CharReveal text="Serviços" inView />
               <br />
-              <SplitHeading text="& valores" delay={0.12} />
+              <span className="italic text-gold-soft">
+                <CharReveal text="& valores" inView delay={0.25} />
+              </span>
             </h2>
             <Reveal delay={0.2}>
               <p className="mt-6 max-w-sm font-light leading-relaxed text-bone/60">
@@ -81,10 +94,16 @@ export function Services() {
                   exit: { opacity: 0, transition: { duration: 0.15 } },
                 }}
                 className="divide-y divide-line border-y border-line"
+                onPointerMove={(e) => {
+                  mx.set(e.clientX);
+                  my.set(e.clientY);
+                }}
+                onPointerLeave={() => setHovered(null)}
               >
-                {list.map((s) => (
+                {list.map((s, i) => (
                   <motion.li
                     key={s.id}
+                    onPointerEnter={(e) => e.pointerType === "mouse" && setHovered(i)}
                     variants={{
                       hidden: { opacity: 0, y: 18 },
                       show: { opacity: 1, y: 0, transition: { duration: 0.6, ease } },
@@ -92,9 +111,14 @@ export function Services() {
                   >
                     <Link
                       href={`/agendar?servico=${s.id}`}
-                      className="group relative flex items-start gap-5 py-6 transition-colors"
+                      data-cursor="Agendar"
+                      className="group relative flex items-start gap-5 py-7 transition-colors"
                     >
-                      <div className="relative min-w-0 flex-1">
+                      <span className="absolute inset-x-0 -bottom-px h-px origin-left scale-x-0 bg-gold transition-transform duration-700 ease-[cubic-bezier(0.76,0,0.24,1)] group-hover:scale-x-100" />
+                      <span className="mt-2 w-7 shrink-0 font-display text-sm italic text-bone/30 transition-colors group-hover:text-gold">
+                        {String(i + 1).padStart(2, "0")}
+                      </span>
+                      <div className="relative min-w-0 flex-1 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-x-3">
                         <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
                           <h3 className="min-w-0 font-display text-xl transition-colors sm:text-2xl group-hover:text-gold-soft"><ServiceName name={s.name} /></h3>
                           <span className="hidden flex-1 border-b border-dotted border-bone/15 sm:block" />
@@ -114,6 +138,34 @@ export function Services() {
           </div>
         </div>
       </div>
+
+      {/* prévia de foto que segue o cursor */}
+      <motion.div
+        className="pointer-events-none fixed left-0 top-0 z-30 hidden h-60 w-48 -translate-x-1/2 -translate-y-1/2 lg:block"
+        style={{ x: px, y: py, rotate: rot }}
+      >
+        <AnimatePresence>
+          {hovered !== null && (
+            <motion.div
+              key={hovered}
+              className="absolute inset-0 overflow-hidden bg-graphite shadow-[0_30px_60px_-20px_rgba(0,0,0,0.9)]"
+              initial={{ clipPath: "inset(50% 50% 50% 50%)", opacity: 0 }}
+              animate={{ clipPath: "inset(0% 0% 0% 0%)", opacity: 1 }}
+              exit={{ clipPath: "inset(50% 50% 50% 50%)", opacity: 0 }}
+              transition={{ duration: 0.55, ease: [0.76, 0, 0.24, 1] }}
+            >
+              <motion.img
+                src={previews[hovered % previews.length]}
+                alt=""
+                className="h-full w-full object-cover grayscale"
+                initial={{ scale: 1.4 }}
+                animate={{ scale: 1 }}
+                transition={{ duration: 0.9, ease }}
+              />
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </motion.div>
     </section>
   );
 }
