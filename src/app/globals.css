@@ -1,26 +1,119 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  --color-ink: #09090a;
+  --color-coal: #0f0f11;
+  --color-graphite: #17171a;
+  --color-smoke: #222226;
+  --color-line: rgb(238 231 218 / 0.09);
+  --color-gold: #c9a35c;
+  --color-gold-soft: #e6cc95;
+  --color-gold-deep: #8f6f33;
+  --color-bone: #eee7da;
+  --color-mute: #9a958c;
+  --color-ember: #e8823a;
+  --color-ok: #7fbf8e;
+  --color-warn: #e2b55b;
+  --color-bad: #d9725f;
+
+  --font-display: "Bodoni Moda", "Didot", "Times New Roman", serif;
+  --font-sans: "Manrope", ui-sans-serif, system-ui, sans-serif;
+
+  --ease-lux: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
+  color-scheme: dark;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-ink);
+  color: var(--color-bone);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--color-gold);
+  color: var(--color-ink);
+}
+
+/* Grão sutil por cima de tudo — dá textura de papel/cimento queimado */
+.grain::after {
+  content: "";
+  position: fixed;
+  inset: -50%;
+  pointer-events: none;
+  z-index: 60;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  animation: grain 8s steps(10) infinite;
+}
+@keyframes grain {
+  0%, 100% { transform: translate(0, 0); }
+  20% { transform: translate(-3%, 2%); }
+  40% { transform: translate(2%, -3%); }
+  60% { transform: translate(-2%, -1%); }
+  80% { transform: translate(3%, 3%); }
+}
+
+.text-gold-grad {
+  background: linear-gradient(100deg, #8f6f33 0%, #e6cc95 35%, #c9a35c 55%, #f3e2b8 70%, #8f6f33 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: sheen 6s linear infinite;
+}
+@keyframes sheen {
+  to { background-position: -200% center; }
+}
+
+.gold-border {
+  border: 1px solid transparent;
+  background:
+    linear-gradient(var(--color-coal), var(--color-coal)) padding-box,
+    linear-gradient(135deg, rgb(201 163 92 / 0.7), rgb(201 163 92 / 0.05) 40%, rgb(201 163 92 / 0.5)) border-box;
+}
+
+.glass {
+  background: rgb(15 15 17 / 0.62);
+  backdrop-filter: blur(18px) saturate(140%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  border: 1px solid var(--color-line);
+}
+
+/* Listras do poste de barbeiro (usadas como detalhe decorativo) */
+.pole-stripes {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    var(--color-bone) 0 10px,
+    var(--color-ink) 10px 20px,
+    var(--color-gold) 20px 30px,
+    var(--color-ink) 30px 40px
+  );
+  background-size: 56.57px 56.57px;
+  animation: pole 1.6s linear infinite;
+}
+@keyframes pole {
+  to { background-position: 0 56.57px; }
+}
+
+.hairline {
+  background: linear-gradient(90deg, transparent, rgb(201 163 92 / 0.6), transparent);
+  height: 1px;
+}
+
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { scrollbar-width: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

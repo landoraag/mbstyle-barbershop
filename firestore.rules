@@ -1,0 +1,100 @@
+rules_version = '2';
+
+// MB Style — regras de segurança do Firestore
+//
+// Princípio: o público só enxerga "livre/ocupado" (coleção busy, sem dados do cliente).
+// Agendamentos (nome, celular) só são lidos pelo barbeiro dono da agenda,
+// pelo administrador e pelo próprio cliente logado.
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() { return request.auth != null; }
+    function me() { return get(/databases/$(database)/documents/users/$(request.auth.uid)).data; }
+    function isAdmin() { return signedIn() && me().role == 'admin'; }
+    function isBarberOf(barberId) {
+      return signedIn() && (me().role in ['barber', 'admin']) && (me().barberId == barberId || isAdmin());
+    }
+
+    // ── Perfis de usuário ──
+    match /users/{uid} {
+      allow read: if signedIn() && (request.auth.uid == uid || isAdmin());
+      // cliente cria o próprio perfil, sempre como "client"
+      allow create: if signedIn() && request.auth.uid == uid
+        && request.resource.data.role == 'client'
+        && request.resource.data.barberId == null;
+      allow update: if isAdmin()
+        || (signedIn() && request.auth.uid == uid
+            && request.resource.data.role == resource.data.role
+            && request.resource.data.barberId == resource.data.barberId);
+    }
+
+    // ── Catálogo público ──
+    match /services/{id} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /barbers/{barberId} {
+      allow read: if true;
+      allow create, delete: if isAdmin();
+      // o barbeiro edita o próprio perfil e horários (sem trocar o vínculo de login)
+      allow update: if isBarberOf(barberId)
+        && request.resource.data.uid == resource.data.uid;
+    }
+
+    // ── Ocupação pública (sem dados de cliente) ──
+    match /busy/{slotId} {
+      allow read: if true;
+
+      // Criar: id determinístico barberId_data_HHmm → se já existir vira "update" e é recusado.
+      allow create: if slotId == request.resource.data.barberId + '_' + request.resource.data.date + '_'
+                                 + request.resource.data.time.replace(':', '')
+        && (
+          // bloqueio manual do barbeiro
+          (request.resource.data.appointmentId == null && isBarberOf(request.resource.data.barberId))
+          ||
+          // bloco de um agendamento criado no MESMO lote
+          (request.resource.data.appointmentId is string
+            && getAfter(/databases/$(database)/documents/appointments/$(request.resource.data.appointmentId)).data.barberId == request.resource.data.barberId
+            && getAfter(/databases/$(database)/documents/appointments/$(request.resource.data.appointmentId)).data.date == request.resource.data.date
+            && request.resource.data.time in getAfter(/databases/$(database)/documents/appointments/$(request.resource.data.appointmentId)).data.slots)
+        );
+
+      allow update: if false;
+
+      allow delete: if isBarberOf(resource.data.barberId)
+        || (signedIn() && resource.data.appointmentId != null
+            && get(/databases/$(database)/documents/appointments/$(resource.data.appointmentId)).data.clientUid == request.auth.uid);
+    }
+
+    // ── Agendamentos (privados) ──
+    match /appointments/{id} {
+      allow read: if isBarberOf(resource.data.barberId)
+        || (signedIn() && resource.data.clientUid == request.auth.uid);
+
+      // Visitante: sempre "pending". Cliente logado: pode já nascer "confirmed".
+      allow create: if request.resource.data.keys().hasAll(['barberId', 'serviceId', 'date', 'time', 'slots', 'clientName', 'clientPhone', 'status'])
+        && request.resource.data.clientName is string && request.resource.data.clientName.size() >= 2 && request.resource.data.clientName.size() <= 80
+        && request.resource.data.clientPhone is string && request.resource.data.clientPhone.size() <= 20
+        && request.resource.data.slots is list && request.resource.data.slots.size() >= 1 && request.resource.data.slots.size() <= 12
+        && request.resource.data.time == request.resource.data.slots[0]
+        && exists(/databases/$(database)/documents/barbers/$(request.resource.data.barberId))
+        && (
+          (request.resource.data.status == 'pending' && request.resource.data.clientUid == null)
+          ||
+          (signedIn() && request.resource.data.clientUid == request.auth.uid
+            && request.resource.data.status in ['pending', 'confirmed'])
+        );
+
+      // Barbeiro muda o status; cliente só pode cancelar o próprio.
+      allow update: if request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status'])
+        && (
+          isBarberOf(resource.data.barberId)
+          || (signedIn() && resource.data.clientUid == request.auth.uid && request.resource.data.status == 'cancelled')
+        );
+
+      allow delete: if isAdmin();
+    }
+  }
+}
